@@ -17,13 +17,10 @@ const app = express();
 
 //connect to database
 mongoose
-  .connect(
-    "mongodb+srv://bikash_789:mZT2rZZ7hhU98Hxg@cluster0.v39yq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
+  .connect(process.env.DATABASE, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log("Database connected successfully!!"))
   .catch((err) => {
     console.log(err);
