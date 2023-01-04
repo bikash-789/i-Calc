@@ -17,16 +17,20 @@ const app = express();
 
 //connect to database
 mongoose
-  .connect(process.env.DATABASE, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(
+    "mongodb+srv://bikash_789:mZT2rZZ7hhU98Hxg@cluster0.v39yq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
   .then(() => console.log("Database connected successfully!!"))
   .catch((err) => {
     console.log(err);
   });
 
 //middlewares
+app.use("/api");
 app.use(morgan("dev"));
 app.use(cors({ origin: true }));
 app.use(bodyParser.json());
@@ -42,7 +46,9 @@ app.use(recordRoutes);
 app.use(authRoutes);
 app.use(userRoutes);
 
-const PORT = 8000;
+const PORT =
+  process.env.NODE_ENV === "production" ? process.env.PORT || 80 : 8000;
+
 //setup a server
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT} port, Happy Coding :)!`);

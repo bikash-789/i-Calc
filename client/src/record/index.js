@@ -5,7 +5,7 @@ export const addRecord = async (data) => {
   if (isAuthenticated()) {
     const userId = isAuthenticated().user._id;
     const token = isAuthenticated().token;
-    return fetch(`http://localhost:8000/record/add/${userId}`, {
+    return fetch(`http://localhost:8000/api/record/add/${userId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -25,12 +25,15 @@ export const getRecords = async (req, res) => {
     if (isAuthenticated()) {
       const userId = isAuthenticated().user._id;
       const token = isAuthenticated().token;
-      const records = await fetch(`http://localhost:8000/records/${userId}`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }).then((response) => {
+      const records = await fetch(
+        `http://localhost:8000/api/records/${userId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      ).then((response) => {
         return response.json();
       });
       return records;
@@ -45,7 +48,7 @@ export const getRecords = async (req, res) => {
 //delete record
 export const deleteRecord = (recordId) => {
   if (isAuthenticated()) {
-    return fetch(`http://localhost:8000/record/del/${recordId}`, {
+    return fetch(`http://localhost:8000/api/record/del/${recordId}`, {
       method: "DELETE",
     })
       .then((response) => {
@@ -59,9 +62,12 @@ export const deleteRecord = (recordId) => {
 export const recordById = async (recordId) => {
   try {
     if (isAuthenticated()) {
-      const record = await fetch(`http://localhost:8000/record/${recordId}`, {
-        method: "GET",
-      }).then((response) => {
+      const record = await fetch(
+        `http://localhost:8000/api/record/${recordId}`,
+        {
+          method: "GET",
+        }
+      ).then((response) => {
         return response.json();
       });
       return record;
@@ -74,7 +80,7 @@ export const recordById = async (recordId) => {
 //update record by id
 export const updateRecord = async (recordId, data) => {
   const response = await fetch(
-    `http://localhost:8000/record/update/${recordId}`,
+    `http://localhost:8000/api/record/update/${recordId}`,
     {
       method: "PUT",
       headers: {
