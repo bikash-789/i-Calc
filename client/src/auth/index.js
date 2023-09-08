@@ -1,6 +1,6 @@
 //sign in
 export const signin = (user) => {
-  return fetch(`http://localhost:8000/signin`, {
+  return fetch(`https://i-calc-backend.onrender.com/signin`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -15,7 +15,7 @@ export const signin = (user) => {
 };
 //sign up
 export const signup = (user) => {
-  return fetch(`http://localhost:8000/signup`, {
+  return fetch(`https://i-calc-backend.onrender.com/signup`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -58,7 +58,7 @@ export const signout = (next) => {
   if (typeof window != undefined) {
     localStorage.removeItem("jwt");
     next();
-    return fetch(`http://localhost:8000/api/signout`, {
+    return fetch(`https://i-calc-backend.onrender.com/signout`, {
       method: "GET",
     })
       .then((response) => {

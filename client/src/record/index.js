@@ -5,7 +5,7 @@ export const addRecord = async (data) => {
   if (isAuthenticated()) {
     const userId = isAuthenticated().user._id;
     const token = isAuthenticated().token;
-    return fetch(`http://localhost:8000/api/record/add/${userId}`, {
+    return fetch(`https://i-calc-backend.onrender.com/api/record/add/${userId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,7 +26,7 @@ export const getRecords = async (req, res) => {
       const userId = isAuthenticated().user._id;
       const token = isAuthenticated().token;
       const records = await fetch(
-        `http://localhost:8000/api/records/${userId}`,
+        `https://i-calc-backend.onrender.com/api/records/${userId}`,
         {
           method: "GET",
           headers: {
@@ -48,7 +48,7 @@ export const getRecords = async (req, res) => {
 //delete record
 export const deleteRecord = (recordId) => {
   if (isAuthenticated()) {
-    return fetch(`http://localhost:8000/api/record/del/${recordId}`, {
+    return fetch(`https://i-calc-backend.onrender.com/api/record/del/${recordId}`, {
       method: "DELETE",
     })
       .then((response) => {
@@ -63,7 +63,7 @@ export const recordById = async (recordId) => {
   try {
     if (isAuthenticated()) {
       const record = await fetch(
-        `http://localhost:8000/api/record/${recordId}`,
+        `https://i-calc-backend.onrender.com/api/record/${recordId}`,
         {
           method: "GET",
         }
@@ -80,7 +80,7 @@ export const recordById = async (recordId) => {
 //update record by id
 export const updateRecord = async (recordId, data) => {
   const response = await fetch(
-    `http://localhost:8000/api/record/update/${recordId}`,
+    `https://i-calc-backend.onrender.com/api/record/update/${recordId}`,
     {
       method: "PUT",
       headers: {
