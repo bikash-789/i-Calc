@@ -12,31 +12,37 @@ const {
 const { userById } = require("../controllers/user");
 
 //post record api
-router.post("/record/add/:userId", requireSignIn, isAuth, create);
+router.post("/api/record/add/:userId", requireSignIn, isAuth, create);
 
 //get recordById api
-router.get("/record/:recordId", recordById, (req, res) => {
+router.get("/api/record/:recordId", recordById, (req, res) => {
   res.json({
     record: req.record,
   });
 });
 
 //get records api
-router.get("/records/:userId", requireSignIn, isAuth, records, (req, res) => {
-  res.json({
-    records: req.records,
-  });
-});
+router.get(
+  "/api/records/:userId",
+  requireSignIn,
+  isAuth,
+  records,
+  (req, res) => {
+    res.json({
+      records: req.records,
+    });
+  }
+);
 
 //delete record api
-router.delete("/record/del/:recordId", deleteRecordById, (req, res) => {
+router.delete("/api/record/del/:recordId", deleteRecordById, (req, res) => {
   res.json({
     success: `Successfully deleted!`,
   });
 });
 
 //update record api
-router.put("/record/update/:recordId", update, (req, res) => {
+router.put("/api/record/update/:recordId", update, (req, res) => {
   res.json({
     record: req.record,
   });

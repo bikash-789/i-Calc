@@ -30,7 +30,6 @@ mongoose
   });
 
 //middlewares
-app.use("/api");
 app.use(morgan("dev"));
 app.use(cors({ origin: true }));
 app.use(bodyParser.json());
