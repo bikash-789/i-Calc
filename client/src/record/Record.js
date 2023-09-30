@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { getRecords, deleteRecord, recordById, interestCalc } from "./index";
-import loadingImg from "../images/loadingImage.svg";
 import { useNavigate } from "react-router-dom";
 import { addRecord } from "../record/index";
+import { DownloadTableExcel } from 'react-export-table-to-excel';
+
 
 function Record() {
+  const tableRef = useRef(null);
   const navigate = useNavigate();
   const [records, setRecords] = useState([]);
   let netPrincipal = 0;
@@ -61,15 +63,12 @@ function Record() {
   const showLoading = () => {
     if (loading) {
       return (
-        <div className="flex justify-center items-center mt-52">
-          <img
-            src={loadingImg}
-            width="200px"
-            height="200px"
-            alt="loading"
-            className="bg-white"
-          />
-        </div>
+        <p
+        className="bg-yellow-300 text-center text-slate-900 text-lg px-3 mt-1 rounded-lg"
+        style={{ display: loading ? "block" : "none" }}
+      >
+        Loading...Please wait
+      </p>
       );
     }
   };
@@ -193,11 +192,12 @@ function Record() {
   return (
     <>
       <div className="grid grid-cols-1 lg:grid-cols-2 grid-rows-2 lg:grid-rows-1">
-        <div className="h-full lg:h-screen bg-gray-300 flex justify-center items-center">
+        <div className="h-full lg:h-screen flex justify-center items-center">
           {AddRecord()}
         </div>
-        <div className="bg-gray-200 flex flex-col justify-start items-center px-2 overflow-scroll sm:text-sm md:text-lg">
-          <table class="table-fixed bg-white p-4 mt-2 border border-collapse border-slate-400 shadow-lg">
+        <div className="flex flex-col justify-start items-center px-2 overflow-scroll sm:text-sm md:text-lg">
+        {showLoading()}
+          <table class="table-fixed bg-white p-4 mt-2 border border-collapse border-slate-400 shadow-lg" ref={tableRef}>
             <thead>
               <tr>
                 <th className="border border-slate-300 p-1 lg:p-2 text-slate-500">
@@ -308,12 +308,20 @@ function Record() {
               </tr>
             </tbody>
           </table>
+          {records.length > 0 && <DownloadTableExcel
+                    filename="interest"
+                    sheet="records"
+                    currentTableRef={tableRef.current}
+                >
+
+                   <button className="bg-green-700 px-3 mt-2 rounded-md text-green-100"> Export as Excel </button>
+
+          </DownloadTableExcel>}
           {!loading && records.length === 0 && (
-            <h1 className="text-center text-2xl text-red-100 mt-10">
+            <h1 className="text-center text-2xl text-red-400 mt-10">
               No records available!
             </h1>
           )}
-          {showLoading()}
         </div>
       </div>
     </>

@@ -27,12 +27,6 @@
   overflow-y: scroll;
 }
 
-.first-col {
-  background: url("./images/contact_us.jpg");
-  background-size: cover;
-  background-position: center;
-  opacity: 0.8;
-}
 
 .heading {
   background: linear-gradient(89.87deg, #9747ff 0.17%, #12ffe3 132.64%);

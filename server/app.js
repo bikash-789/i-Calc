@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const path = require("path");
 require("dotenv").config();
 
 //import routes from routes directory
@@ -18,7 +17,7 @@ const app = express();
 //connect to database
 mongoose
   .connect(
-    "mongodb+srv://bikash_789:mZT2rZZ7hhU98Hxg@cluster0.v39yq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    process.env.DATABASE,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signup } from "../auth/index";
 
 function Signup() {
@@ -10,8 +10,10 @@ function Signup() {
     name: "",
     email: "",
     profession: "",
+    loading: false,
     password: "",
   });
+  const {loading} = values;
   const handleChange = (e) => {
     const { name, value } = e.target;
     setError("");
@@ -22,10 +24,20 @@ function Signup() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setValues({
+      ...values,
+      loading: true
+    })
     const user = await signup(values);
     if (user.error) {
+      setValues({
+        ...values,
+        loading: false
+      })
       setError(user.error);
-    } else setRedirect(true);
+    } else {
+      setRedirect(true);
+    }
   };
   const redirectUser = () => {
     if (redirect) {
@@ -34,19 +46,32 @@ function Signup() {
   };
   const showError = () => {
     return (
-      <h1
-        className="bg-red-400 text-center text-white text-lg"
-        style={{ display: error ? "" : "none" }}
+      <p
+        className="bg-red-500 text-center text-red-100 text-lg w-[80%] mx-auto mt-1 rounded-md"
+        style={{ display: error ? "block" : "none" }}
       >
         {error}
-      </h1>
+      </p>
     );
   };
+  const showLoading = () => {
+    if (loading) {
+      return (
+        <p
+        className="bg-yellow-500 text-center text-yellow-100 w-[80%] mx-auto mt-1 rounded-md text-lg"
+        style={{ display: loading ? "block" : "none" }}
+      >
+        Loading...Please wait
+      </p>
+      );
+    }
+  };
   return (
-    <div className="h-screen bg-gray-400">
+    <div className="">
       {showError()}
-      <div className="grid grid-cols-1 grid-rows-1 px-2 py-4 md:px-0">
-        <div className="border-2 rounded-lg shadow-lg justify-self-center p-4 bg-slate-200 w-7/12 sm:w-6/12 md:w-4/12">
+      {showLoading()}
+      <div className="h-[90vh] flex px-2 py-4 justify-center items-center w-full">
+        <div className="border-2 rounded-lg shadow-lg p-4 bg-slate-200 max-w-[600px]">
           <form>
             <h1 className="text-slate-500 text-center text-lg">Sign up</h1>
             <input
@@ -90,12 +115,15 @@ function Signup() {
             <br />
             <br />
             <button
+              disabled={loading}
               onClick={handleSubmit}
               className="w-full bg-indigo-500 rounded-md my-3 justify-self-center text-white hover:bg-indigo-700 h-10 text-xl"
             >
               Sign up
             </button>
+            <center className=" text-slate-600">Already have an account? <Link to="/signin">Login</Link></center>
           </form>
+          
         </div>
         {redirectUser()}
       </div>

@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { signin, authenticate } from "../auth/index";
-import { useNavigate } from "react-router-dom";
-import loadingImg from "../images/loadingImage.svg";
-import login from "../images/login.jpeg";
+import { Link, useNavigate } from "react-router-dom";
 function Signin() {
   const [values, setValues] = useState({
     email: "",
@@ -23,6 +21,10 @@ function Signin() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    setValues({
+      ...values,
+      loading: true});
+
     signin({ email, password }).then((data) => {
       if (data.error) {
         setValues({
@@ -50,48 +52,36 @@ function Signin() {
       return Navigate("/user/profile");
     }
   };
+  const showError = () => {
+    return (
+      <p
+        className="bg-red-500 text-center text-red-100 text-lg w-[80%] mx-auto mt-1 rounded-md"
+        style={{ display: error ? "block" : "none" }}
+      >
+        {error}
+      </p>
+    );
+  };
   const showLoading = () => {
     if (loading) {
       return (
-        <div className="flex justify-center items-center mt-52">
-          <img
-            src={loadingImg}
-            width="200px"
-            height="200px"
-            alt="loading"
-            className="bg-white"
-          />
-        </div>
+        <p
+        className="bg-yellow-500 text-center text-yellow-100 w-[80%] mx-auto mt-1 rounded-md text-lg"
+        style={{ display: loading ? "block" : "none" }}
+      >
+        Loading...Please wait
+      </p>
       );
     }
   };
-  const showError = () => {
-    return (
-      <h1
-        className="bg-red-400 text-center text-white text-lg"
-        style={{ display: error ? "" : "none" }}
-      >
-        {error}
-      </h1>
-    );
-  };
+
+
   return (
-    <>
+    <section className="">
       {showError()}
-      <div className="grid grid-cols-1 md:grid-cols-2 grid-rows-2 md:grid-rows-1 md:px-0">
-        <div className="h-108 md:h-screen">
-          <img
-            src={login}
-            style={{
-              width: "100%",
-              height: "100%",
-              backgroundPosition: "center",
-            }}
-            alt="login"
-          />
-        </div>
-        <div className="bg-gray-400 flex justify-center items-center">
-          <div className="border-2 rounded-lg shadow-xl justify-self-center p-4 bg-slate-200 w-9/12 sm:w-6/12 md:w-7/12 h-48">
+          {showLoading()}
+        <div className="flex justify-center items-center h-[90vh] w-full">
+          <div className="rounded-lg shadow-xl justify-self-center p-4 bg-slate-200 min-w-[300px] max-w-[500px]">
             <form>
               <h1 className="text-slate-500 text-center text-xl">Login</h1>
 
@@ -118,17 +108,17 @@ function Signin() {
 
               <button
                 onClick={handleSubmit}
+                disabled={loading}
                 className="w-full bg-indigo-500 rounded-md my-3 justify-self-center text-white hover:bg-indigo-700 h-10 text-xl"
               >
                 Login
               </button>
+              <center className="text-slate-600">Don't have an account? <Link to="/signup">Signup</Link></center>
             </form>
           </div>
         </div>
-      </div>
       {RedirectUser()}
-      {showLoading()}
-    </>
+    </section>
   );
 }
 

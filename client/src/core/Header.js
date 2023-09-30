@@ -19,7 +19,7 @@ function Header() {
           </li>
         )}
         {!isAuthenticated() && (
-          <li className="ml-4 px-2 mr-1 hover:text-orange-400 hover:cursor-pointer rounded-lg">
+          <li className="ml-4 px-2 mr-1 hover:text-orange-200 hover:cursor-pointer rounded-lg">
             <Link to="/signin">Login</Link>
           </li>
         )}
